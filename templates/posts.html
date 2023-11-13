@@ -1,0 +1,30 @@
+{% extends 'flatpages/default.html' %}
+{% load censor %}!
+
+{% block title %}
+Posts
+{% endblock title %}
+
+{% block content %}
+<h1>Все новости</h1>
+<h3>Общее количество новостей на дату {{ time_now|date:'M d Y' }} : {{ posts|length }} статьи</h3>
+<hr>
+   {% if posts %}
+       <table>
+           <tr>
+               <td><b>Заголовок</b></td>
+               <td><b>Дата публикации</b></td>
+               <td><b>Краткое содержание</b></td>
+           </tr>
+           {% for post in posts %}
+           <tr>
+               <td>{{ post.post_name|censor }}</td>
+               <td>{{ post.post_time|date:'d M Y' }}</td>
+               <td>{{ post.post_text|truncatewords:20|censor }}</td>
+           </tr>
+           {% endfor %}
+       </table>
+   {% else %}
+       <h2>Новостей нет!</h2>
+   {% endif %}
+{% endblock content %}
