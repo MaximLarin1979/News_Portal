@@ -8,7 +8,7 @@ from .filters import PostFilter
 from .models import Post
 
 
-class PostList(ListView):
+class PostList(ListView, LoginRequiredMixin):
     model = Post
     ordering = '-post_time'
     template_name = 'posts.html'
@@ -27,7 +27,7 @@ class PostList(ListView):
         return context
 
 
-class PostDetail(DetailView):
+class PostDetail(DetailView,LoginRequiredMixin):
     model = Post
     template_name = 'post.html'
     context_object_name = 'post'
