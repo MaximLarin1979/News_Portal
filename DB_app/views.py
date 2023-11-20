@@ -2,13 +2,14 @@ from django.shortcuts import render
 from datetime import datetime
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth import logout
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from .forms import PostForm
 from .filters import PostFilter
-from .models import Post
+from .models import Post, Category
 
 
 class PostList(ListView):
@@ -71,3 +72,14 @@ def be_author(request):
     if not request.user.groups.filter(name='authors').exists():
         authors_group.user_set.add(user)
     return redirect('/news/')
+
+def logout_user(request):
+    logout(request)
+    return redirect('/news/')
+
+@login_required
+def subscribe(request, pk):
+    user = request.user
+    category = Category.objects.get(id=pk)
+    category.subscribers.add(user)
+    return redirect('/posts/categories/'+str(pk)+'/')
