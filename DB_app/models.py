@@ -23,7 +23,7 @@ class Author(models.Model):
 
 class Category(models.Model):
     category_name = models.CharField(max_length=255, unique=True)
-    subscribers = models.ForeignKey(User, on_delete=models.CASCADE)
+    subscribers = models.ForeignKey(User, blank=True, null=True, related_name='categories', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.category_name

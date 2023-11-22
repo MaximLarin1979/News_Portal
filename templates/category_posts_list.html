@@ -14,22 +14,16 @@
        <input type="submit" value="Найти" />
    </form>
 <hr>
-   {% if posts %}
+   {% if category_posts_list %}
        <table>
            <tr>
                <td><b>Заголовок</b></td>
-               <td><b>Категория</b></td>
                <td><b>Дата публикации</b></td>
                <td><b>Краткое содержание</b></td>
            </tr>
-           {% for post in posts %}
+           {% for post in category_posts_list %}
            <tr>
                <td>{{ post.post_name|censor }}</td>
-               <td>
-                   {% for cat in post.category.all %}
-                   <a href="{% url 'category_posts_list' cat.id %}">{{ cat }}</a>
-                   {% endfor %}
-               </td>
                <td>{{ post.post_time|date:'d M Y' }}</td>
                <td>{{ post.post_text|truncatewords:20|censor }}</td>
            </tr>
@@ -58,7 +52,4 @@
    {% if is_not_author %}
    <button> <a href="/news/be_author/"> Стать автором </a> </button>
    {% endif %}
-   {% if is_not_subscriber %}
-   <button> <a href="{% url 'subscribe' category.id %}"> Подписаться</a> </button>
-    {% endif %}
 {% endblock content %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from datetime import datetime
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -65,6 +65,23 @@ class PostDelete(LoginRequiredMixin, DeleteView):
     template_name = 'post_delete.html'
     success_url = reverse_lazy('post_list')
 
+
+class CategoryList(LoginRequiredMixin, PostList):
+    context_object_name = 'category_posts_list'
+
+    def get_queryset(self):
+        self.category = Category.objects.get(pk=self.kwargs['pk'])
+        queryset = Post.objects.filter(category=self.category)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category = get_object_or_404(Category, id=self.kwargs['pk'])
+        context['is_not_subscriber'] = self.request.user not in category.subscribers.all()
+        context['category'] = category
+        return context
+
+
 @login_required
 def be_author(request):
     user = request.user
@@ -73,9 +90,11 @@ def be_author(request):
         authors_group.user_set.add(user)
     return redirect('/news/')
 
+
 def logout_user(request):
     logout(request)
     return redirect('/news/')
+
 
 @login_required
 def subscribe(request, pk):
