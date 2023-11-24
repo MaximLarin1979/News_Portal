@@ -66,13 +66,15 @@ class PostDelete(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('post_list')
 
 
-class CategoryList(LoginRequiredMixin, PostList):
-    context_object_name = 'category_posts_list'
+class CategoryList(LoginRequiredMixin, ListView):
+    # template_name = 'category_posts_list.html'
+    # context_object_name = 'category_posts_list'
 
     def get_queryset(self):
         self.category = Category.objects.get(pk=self.kwargs['pk'])
         queryset = Post.objects.filter(category=self.category)
-        return queryset
+        self.filterset = PostFilter(self.request.GET, queryset)
+        return self.filterset.qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
