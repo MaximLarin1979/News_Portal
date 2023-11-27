@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from .forms import PostForm
 from .filters import PostFilter
 from .models import Post, Category
@@ -66,9 +67,7 @@ class PostDelete(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('post_list')
 
 
-class CategoryList(LoginRequiredMixin, ListView):
-    # template_name = 'category_posts_list.html'
-    # context_object_name = 'category_posts_list'
+class CategoryList(LoginRequiredMixin, PostList):
 
     def get_queryset(self):
         self.category = Category.objects.get(pk=self.kwargs['pk'])
@@ -103,4 +102,4 @@ def subscribe(request, pk):
     user = request.user
     category = Category.objects.get(id=pk)
     category.subscribers.add(user)
-    return redirect('/posts/categories/'+str(pk)+'/')
+    return redirect('/news/categories/'+str(pk)+'/')

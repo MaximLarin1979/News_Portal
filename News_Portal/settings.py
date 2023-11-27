@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'DB_app',
+    # 'DB_app',
+    'DB_app.apps.DbAppConfig',
     'django.contrib.sites',
     'django.contrib.flatpages',
     'fpages',
@@ -145,8 +146,23 @@ STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
 
+SITE_URL = 'http://127.0.0.1:8000/'
+
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/news/'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = 'maks.larin79'
+EMAIL_HOST_PASSWORD = 'leicaqjitutwhdip'
+EMAIL_USE_SSL = True
+
+# EMAIL_SERVER = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# EMAIL_ADMIN = 'maks.larin@gmail.com'
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
