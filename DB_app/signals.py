@@ -35,6 +35,8 @@ def notify_about_new_post(sender, instance, **kwargs):
         for category in categories:
             subscribers += category.subscribers.all()
         subscribers_emails = [s.email for s in subscribers]
+        print(settings.DEFAULT_FROM_EMAIL)
+        print(settings.SITE_URL)
         print(subscribers)
         print(categories)
         print(subscribers_emails)

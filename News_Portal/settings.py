@@ -152,17 +152,14 @@ LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/news/'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_PORT = 465
-# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-EMAIL_HOST_USER = 'maks.larin79'
-EMAIL_HOST_PASSWORD = 'leicaqjitutwhdip'
-EMAIL_USE_SSL = True
 
-# EMAIL_SERVER = EMAIL_HOST_USER
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-# EMAIL_ADMIN = 'maks.larin@gmail.com'
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 2525
+EMAIL_HOST_USER = 'django_notifications'
+EMAIL_HOST_PASSWORD = 'B4enwZ688p2Bx0PRVVan'
+EMAIL_USE_SSL = False
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'django_notifications@mail.ru'
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
