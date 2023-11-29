@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -151,15 +152,15 @@ SITE_URL = 'http://127.0.0.1:8000/'
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/news/'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'smtp.mail.ru'
 EMAIL_PORT = 2525
-EMAIL_HOST_USER = 'django_notifications'
-EMAIL_HOST_PASSWORD = 'B4enwZ688p2Bx0PRVVan'
+EMAIL_HOST_USER = 'maxim.larin.79'
+EMAIL_HOST_PASSWORD = 'A7yfb8ds8GQQfTSsRMqZ'
 EMAIL_USE_SSL = False
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'django_notifications@mail.ru'
+DEFAULT_FROM_EMAIL = 'maxim.larin.79@mail.ru'
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True

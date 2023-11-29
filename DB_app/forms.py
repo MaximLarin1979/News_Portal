@@ -2,6 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from allauth.account.forms import SignupForm
 from django.contrib.auth.models import Group
+from datetime import datetime, timedelta
 from .models import Post
 
 
@@ -29,11 +30,19 @@ class PostForm(forms.ModelForm):
                 'post_text': "Текст поста не может быть менее 30 символов."
             })
 
-        post_name = cleaned_data.get("name")
+        post_name = cleaned_data.get('post_name')
         if post_name == post_text:
-            raise ValidationError(
-                "Текст поста не должен быть идентичным названию."
-            )
+            raise ValidationError({
+                'post_text': "Текст поста не должен быть идентичным названию."
+            })
+
+        post_time = cleaned_data.get('post_time')
+        author = cleaned_data.get('author')
+        if len([post for post in Post.objects.filter(author=author) if
+                post_time > (datetime.now() - timedelta(days=1))]) > 3:
+            raise ValidationError({
+                'post_text': "Разрешено публиковать не более 3 постов в сутки."
+            })
         return cleaned_data
 
 

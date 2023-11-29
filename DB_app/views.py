@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from .forms import PostForm
 from .filters import PostFilter
-from .models import Post, Category
+from .models import Post, Category, Author
 
 
 class PostList(ListView):
@@ -44,6 +44,7 @@ class PostCreate(PermissionRequiredMixin, CreateView):
     model = Post
     template_name = 'post_edit.html'
     permission_required = ('DB_app.add_post')
+    success_url = '/news/'
 
     def form_valid(self, form):
         post = form.save(commit=False)
@@ -86,6 +87,7 @@ class CategoryList(LoginRequiredMixin, PostList):
 @login_required
 def be_author(request):
     user = request.user
+    Author.objects.create(author=user)
     authors_group = Group.objects.get(name='authors')
     if not request.user.groups.filter(name='authors').exists():
         authors_group.user_set.add(user)
