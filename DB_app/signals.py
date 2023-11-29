@@ -15,7 +15,7 @@ def send_notifications(preview, pk, title, subscribers):
             'link': f'{settings.SITE_URL}news/{pk}'
         }
     )
-
+    print(preview)
     msg = EmailMultiAlternatives(
         subject=title,
         body='',
@@ -35,4 +35,4 @@ def notify_about_new_post(sender, instance, **kwargs):
         for category in categories:
             subscribers += category.subscribers.all()
         subscribers_emails = [s.email for s in subscribers]
-        send_notifications(instance.preview(), instance.pk, instance.post_name, subscribers_emails)
+        send_notifications(str(instance.post_text)[:50]+'...', instance.pk, instance.post_name, subscribers_emails)
