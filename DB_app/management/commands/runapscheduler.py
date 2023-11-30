@@ -18,7 +18,7 @@ from News_Portal import settings
 
 
 def my_job():
-    start_date = datetime.datetime.today() - datetime.timedelta(days=7)
+    start_date = datetime.datetime.today() - datetime.timedelta(days=20)
     this_weeks_posts = Post.objects.filter(post_time__gt=start_date)
     for cat in Category.objects.all():
         post_list = this_weeks_posts.filter(category=cat)
@@ -29,13 +29,13 @@ def my_job():
                 recipients.append(sub['email'])
             html_content = render_to_string(
                 'daily_post.html', {
-                    'link': settings.SITE_URL + 'posts/',
+                    'link': settings.SITE_URL + 'news/',
                     'posts': post_list,
                 }
             )
 
             msg = EmailMultiAlternatives(
-                subject=f'Категория - {cat.article_category}',
+                subject=f'Категория - {cat.category_name}',
                 body="---------",
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 to=recipients
