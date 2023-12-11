@@ -11,6 +11,7 @@ from django.core.mail import send_mail
 from .forms import PostForm
 from .filters import PostFilter
 from .models import Post, Category, Author
+from .tasks import send_mail_subscriber
 
 
 class PostList(ListView):
@@ -52,6 +53,8 @@ class PostCreate(PermissionRequiredMixin, CreateView):
             post.post_type = 'ar'
         elif self.request.path == '/news/news/create/':
             post.post_type = 'ne'
+        post.save()
+        send_mail_subscriber.delay(post.pk)
         return super().form_valid(form)
 
 

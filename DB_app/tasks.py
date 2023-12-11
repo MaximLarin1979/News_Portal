@@ -17,12 +17,12 @@ def send_mail_subscriber(pk):
     for category in categories:
         subscribers += category.subscribers.all()
     subscribers_emails = [s.email for s in subscribers]
-
+    print(subscribers_emails)
     html_context = render_to_string(
         'post_created_email.html',
         {
             'text': post.preview(),
-            'link': f'{settings.SITE_URL}posts/{pk}'
+            'link': f'{settings.SITE_URL}news/{pk}'
         }
     )
 
@@ -51,7 +51,7 @@ def send_weekly_mail():
 
             html_content = render_to_string(
                 'daily_post.html', {
-                    'link': settings.SITE_URL + 'posts/',
+                    'link': settings.SITE_URL + 'news/',
                     'posts': post_list,
                 }
             )
