@@ -36,13 +36,13 @@ class PostForm(forms.ModelForm):
                 'post_text': "Текст поста не должен быть идентичным названию."
             })
 
-        post_time = datetime.now()
-        author = cleaned_data.get('author')
-        if len([post for post in Post.objects.filter(author=author) if
-                post_time > (datetime.now() - timedelta(days=1))]) > 2:
-            raise ValidationError({
-                'post_text': "Разрешено публиковать не более 3 постов в сутки."
-            })
+        # post_time = datetime.now()
+        # author = cleaned_data.get('author')
+        # if len([post for post in Post.objects.filter(author=author) if
+        #         post_time > (datetime.now() - timedelta(days=1))]) > 2:
+        #     raise ValidationError({
+        #         'post_text': "Разрешено публиковать не более 3 постов в сутки."
+        #     })
         return cleaned_data
 
 
