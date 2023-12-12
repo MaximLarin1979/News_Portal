@@ -31,9 +31,8 @@ def send_mail_subscriber(pk):
         from_email=settings.DEFAULT_FROM_EMAIL,
         to=subscribers_emails
     )
-    print(title, settings.DEFAULT_FROM_EMAIL, subscribers_emails)
     msg.attach_alternative(html_context, 'text/html')
-    # msg.send()
+    msg.send()
 
 
 @shared_task
@@ -44,9 +43,9 @@ def send_weekly_mail():
         post_list = this_weeks_posts.filter(category=cat)
         if post_list:
             subscribers = cat.subscribers.values('username', 'email')
-            recipients = []
+            subscribers_emails = []
             for sub in subscribers:
-                recipients.append(sub['email'])
+                subscribers_emails.append(sub['email'])
 
             html_content = render_to_string(
                 'daily_post.html', {
@@ -58,9 +57,8 @@ def send_weekly_mail():
                 subject=f'Категория - {cat.category_name}',
                 body="---------",
                 from_email=settings.DEFAULT_FROM_EMAIL,
-                to=recipients
+                to=subscribers_emails
             )
             msg.attach_alternative(html_content, 'text/html')
-            print(cat.category_name, settings.DEFAULT_FROM_EMAIL, recipients)
-            # msg.send()
-    print('рассылка произведена')
+            msg.send()
+    print('Рассылка произведена!')
