@@ -17,7 +17,6 @@ def send_mail_subscriber(pk):
     for category in categories:
         subscribers += category.subscribers.all()
     subscribers_emails = [s.email for s in subscribers]
-    print(subscribers_emails)
     html_context = render_to_string(
         'post_created_email.html',
         {
@@ -32,14 +31,14 @@ def send_mail_subscriber(pk):
         from_email=settings.DEFAULT_FROM_EMAIL,
         to=subscribers_emails
     )
-
+    print(title, settings.DEFAULT_FROM_EMAIL, subscribers_emails)
     msg.attach_alternative(html_context, 'text/html')
-    msg.send()
+    # msg.send()
 
 
 @shared_task
 def send_weekly_mail():
-    start_date = datetime.datetime.today() - datetime.timedelta(days=60)
+    start_date = datetime.datetime.today() - datetime.timedelta(days=6)
     this_weeks_posts = Post.objects.filter(post_time__gt=start_date)
     for cat in Category.objects.all():
         post_list = this_weeks_posts.filter(category=cat)
@@ -56,11 +55,12 @@ def send_weekly_mail():
                 }
             )
             msg = EmailMultiAlternatives(
-                subject=f'Категория - {cat.article_category}',
+                subject=f'Категория - {cat.category_name}',
                 body="---------",
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 to=recipients
             )
             msg.attach_alternative(html_content, 'text/html')
-            msg.send()
+            print(cat.category_name, settings.DEFAULT_FROM_EMAIL, recipients)
+            # msg.send()
     print('рассылка произведена')

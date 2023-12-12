@@ -1,11 +1,11 @@
-from django.db.models.signals import m2m_changed
-from django.dispatch import receiver
-from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives
-
-from News_Portal import settings
-from .models import PostCategory
-
+# Задачи выполняются с помощью celery!
+# from django.db.models.signals import m2m_changed
+# from django.dispatch import receiver
+# from django.template.loader import render_to_string
+# from django.core.mail import EmailMultiAlternatives
+#
+# from News_Portal import settings
+# from .models import PostCategory
 
 # def send_notifications(preview, pk, title, subscribers):
 #     html_context = render_to_string(
