@@ -1,12 +1,16 @@
 {% extends 'flatpages/default.html' %}
 {% load censor %}!
+{% load cache %}
 
 {% block title %}
 Пост
 {% endblock title %}
 
+
 {% block content %}
-<h1><b>{{ post.post_name|censor }}</b></h1>
-<h3>{{ post.post_time|date:'d M Y' }}</h3>
-<h3>{{ post.post_text|censor }}</h3>
+{% cache 30 post %}
+    <h1><b>{{ post.post_name|censor }}</b></h1>
+    <h3>{{ post.post_time|date:'d M Y' }}</h3>
+    <h3>{{ post.post_text|censor }}</h3>
+{% endcache %}
 {% endblock content %}
